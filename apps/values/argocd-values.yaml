@@ -1,0 +1,78 @@
+configs:
+  cm:
+    timeout.reconciliation: 30s
+    accounts.devops: apiKey, login
+
+  rbac:
+    policy.default: role:readonly
+    policy.csv: |
+      g, devops, role:admin
+
+# server:
+#   service:
+#     type: ClusterIP
+
+#   extraArgs:
+#     - --insecure
+
+server:
+  replicas: 1                         # ← для t3.micro
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+  service:
+    type: ClusterIP
+
+  extraArgs:
+    - --insecure
+
+controller:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi
+
+repoServer:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 20m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+applicationSet:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 20m
+      memory: 32Mi
+    limits:
+      cpu: 100m
+      memory: 64Mi
+
+redis:
+  enabled: true
+  resources:
+    requests:
+      cpu: 20m
+      memory: 32Mi
+    limits:
+      cpu: 100m
+      memory: 64Mi
+
+dex:
+  enabled: false 
+
+# redis:
+#   enabled: true
