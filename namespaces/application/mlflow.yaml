@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: mlflow
-  namespace: infra-tools
+  namespace: argocd
 spec:
   project: default
   source:
@@ -19,22 +19,24 @@ spec:
           enabled: false
         postgresql:
           enabled: false
-        
+
         extraEnvVars:
           AWS_ACCESS_KEY_ID: "minio"
           AWS_SECRET_ACCESS_KEY: "minio123"
-          MLFLOW_S3_ENDPOINT_URL: "http://minio.application.cvc.cluster.local:9000"
-          VLFLOW_BACKEND_STORE_URI: "postgresql://mlflow:mlflowpass@mlflow-postgres-postgresql.application.svc/cluster.local:5432/mlflow"
+          MLFLOW_S3_ENDPOINT_URL: "http://minio.application.svc.cluster.local:9000"
+          MLFLOW_BACKEND_STORE_URI: "postgresql://mlflow:mlflowpass@mlflow-postgres-postgresql.application.svc.cluster.local:5432/mlflow"
           MLFLOW_ARTIFACT_ROOT: "s3://mlflow-artifacts"
-        
-        extraargs:
+
+        extraArgs:
           backend-store-uri: "$(MLFLOW_BACKEND_STORE_URI)"
-          default-artifact-toot: "$(MLFLOW_ARTIFACT_ROOT)"
-          host: ""0.0.0.0"
+          default-artifact-root: "$(MLFLOW_ARTIFACT_ROOT)"
+          host: "0.0.0.0"
           port: "5000"
+
   destination:
-    namespace: Applicationserver: https://kubernetes.default.svc
-  
+    namespace: application
+    server: https://kubernetes.default.svc
+
   syncPolicy:
     automated:
       prune: true
@@ -42,3 +44,5 @@ spec:
     syncOptions:
       - ServerSideApply=true
       - SkipDryRunOnMissingResource=true
+
+
