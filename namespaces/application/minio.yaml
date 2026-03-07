@@ -2,12 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: minio
-  namespace: infra-tools
+  namespace: argocd
 spec:
   destination:
-    namespace: Application
+    namespace: application
     server: https://kubernetes.default.svc
-  preject: default
+  project: default
   source:
     repoURL: https://charts.bitnami.com/bitnami
     chart: minio
@@ -29,4 +29,4 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
-      - SkipDryRunOnMissingResource=trues
+      - SkipDryRunOnMissingResource=true
