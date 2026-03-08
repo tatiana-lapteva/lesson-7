@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prometheus-pushgateway
+  name: pushgateway
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -14,6 +14,7 @@ spec:
     targetRevision: 2.14.0
     chart: prometheus-pushgateway
     helm:
+      releaseName: pushgateway
       valuesObject:
         service:
           type: ClusterIP
