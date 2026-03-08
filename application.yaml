@@ -5,16 +5,10 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  sources:
-    - repoURL: https://argoproj.github.io/argo-helm
-      chart: argo-cd
-      targetRevision: 7.7.0
-      helm:
-        valueFiles:
-          - $values/argocd-values.yaml
-    - repoURL: https://github.com/tatiana-lapteva/lesson-7.git
-      targetRevision: main
-      ref: values
+  source:
+    repoURL: https://github.com/tatiana-lapteva/lesson-7.git
+    targetRevision: main
+    path: namespaces
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
